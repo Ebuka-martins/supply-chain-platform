@@ -21,7 +21,10 @@ footer .list-unstyled a:hover {
     text-decoration: underline;
 }
 
-/* Optional: Slight hover effect for contact info (email/phone/location) */
+footer .list-unstyled a:focus {
+    color: #0d6efd;
+    text-decoration: underline;
+}
 footer p:hover {
     color: #0d6efd;
     transition: color 0.3s ease;
