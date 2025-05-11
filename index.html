@@ -8,11 +8,237 @@
     <meta name="description" content="supply chain, platform, online, tracking, management, real-time, data, analysis">
     <meta name="description" content="supply chain, platform, online, tracking, management, real-time, data, analysis">
 
+    <!-- Title -->
     <title>supply chain platform</title>
 
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
+
+    <!-- Creating a style link between HTML and CSS -->
     <link rel="stylesheet" href="assets\css\style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 </head>
+
+
 <body>
-    <h1>hello world</h1>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-truck-fast me-2"></i>SupplyTrack
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html"><i class="fas fa-home me-1"></i> Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="tracking.html"><i class="fas fa-map-marked-alt me-1"></i> Tracking</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="analytics.html"><i class="fas fa-chart-line me-1"></i> Analytics</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="alerts.html"><i class="fas fa-bell me-1"></i> Alerts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="settings.html"><i class="fas fa-cog me-1"></i> Settings</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-8">
+                <h2><i class="fas fa-tachometer-alt me-2"></i>Dashboard Overview</h2>
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <i class="fas fa-shipping-fast me-2"></i>Active Shipments
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Shipment ID</th>
+                                        <th>Origin</th>
+                                        <th>Destination</th>
+                                        <th>Status</th>
+                                        <th>ETA</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><a href="tracking.html">SH-789456</a></td>
+                                        <td>New York</td>
+                                        <td>Los Angeles</td>
+                                        <td><span class="badge bg-warning">In Transit</span></td>
+                                        <td>May 15, 2025</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="tracking.html">SH-123456</a></td>
+                                        <td>Chicago</td>
+                                        <td>Miami</td>
+                                        <td><span class="badge bg-success">Delivered</span></td>
+                                        <td>May 10, 2025</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="tracking.html">SH-654321</a></td>
+                                        <td>Houston</td>
+                                        <td>Seattle</td>
+                                        <td><span class="badge bg-info">Processing</span></td>
+                                        <td>May 18, 2025</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-header bg-success text-white">
+                        <i class="fas fa-bell me-2"></i>Recent Alerts
+                    </div>
+                    <div class="card-body alert-scroll">
+                        <div class="alert alert-warning">
+                            <strong>Delay Alert:</strong> Shipment SH-789456 delayed due to weather conditions.
+                        </div>
+                        <div class="alert alert-info">
+                            <strong>Route Change:</strong> Shipment SH-654321 rerouted due to traffic.
+                        </div>
+                        <div class="alert alert-success">
+                            <strong>Delivery Complete:</strong> Shipment SH-123456 delivered successfully.
+                        </div>
+                        <a href="alerts.html" class="btn btn-outline-success btn-sm mt-2">View All Alerts</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header bg-info text-white">
+                        <i class="fas fa-chart-pie me-2"></i>Quick Stats
+                    </div>
+                    <div class="card-body">
+                        <div class="row text-center">
+                            <div class="col-6 mb-3">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h5 class="card-title">12</h5>
+                                        <p class="card-text">Active Shipments</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h5 class="card-title">3</h5>
+                                        <p class="card-text">Delays</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h5 class="card-title">98%</h5>
+                                        <p class="card-text">On Time Rate</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h5 class="card-title">45</h5>
+                                        <p class="card-text">This Month</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- Footer -->
+<footer class="bg-dark text-white mt-5 py-4">
+    <div class="container text-center text-md-start">
+        <div class="row">
+            <!-- Social Media Section -->
+            <div class="col-md-4 mb-3 mb-md-0">
+                <h5 class="text-uppercase">Follow Us</h5>
+                <ul id="social-media" class="list-inline">
+                    <li class="list-inline-item mx-2">
+                        <a href="https://x.com/?lang=en" rel="noopener" aria-label="Twitter" target="_blank" class="text-white fs-4">
+                            <i class="fa-brands fa-x-twitter"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item mx-2">
+                        <a href="https://www.facebook.com/" rel="noopener" aria-label="Facebook" target="_blank" class="text-white fs-4">
+                            <i class="fa-brands fa-facebook"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item mx-2">
+                        <a href="https://www.youtube.com/" rel="noopener" aria-label="YouTube" target="_blank" class="text-white fs-4">
+                            <i class="fa-brands fa-youtube"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item mx-2">
+                        <a href="https://www.instagram.com/" rel="noopener" aria-label="Instagram" target="_blank" class="text-white fs-4">
+                            <i class="fa-brands fa-square-instagram"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Quick Links Section -->
+            <div class="col-md-4 mb-3 mb-md-0">
+                <h5 class="text-uppercase">Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-white text-decoration-none">About Us</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">Contact</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">Privacy Policy</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">Terms & Conditions</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="col-md-4">
+                <h5 class="text-uppercase">Contact Info</h5>
+                <p class="mb-1"><i class="fa fa-envelope me-2"></i> info@example.com</p>
+                <p class="mb-1"><i class="fa fa-phone me-2"></i> +123 456 7890</p>
+                <p><i class="fa fa-map-marker-alt me-2"></i> 123 Street Name, City, Country</p>
+            </div>
+        </div>
+
+        <hr class="border-light my-4">
+
+        <!-- Footer Bottom -->
+        <div class="text-center small text-muted">
+            &copy; <span id="year"></span> Your Company Name. All rights reserved.
+        </div>
+    </div>
+</footer>
+
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+<script src="assets\js\alerts.js"></script>
+<script src="assets\js\analytics.js"></script>
+<script src="assets\js\common.js"></script>
+<script src="assets\js\dashboard.js"></script>
+<script src="assets\js\settings.js"></script>
+<script src="assets\js\tracking.js"></script>
 </body>
 </html>
