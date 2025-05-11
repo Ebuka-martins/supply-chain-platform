@@ -31,3 +31,13 @@ footer p:hover {
     cursor: default;
 }
 
+footer .list-unstyled a {
+    color: white;
+    transition: color 0.3s ease;
+}
+
+footer .list-unstyled a:hover {
+    color: #0d6efd !important;
+    text-decoration: underline !important;
+}
+
