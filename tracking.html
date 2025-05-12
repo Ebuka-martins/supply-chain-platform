@@ -9,7 +9,7 @@
     <meta name="description" content="supply chain, platform, online, tracking, management, real-time, data, analysis">
 
     <!-- Title -->
-    <title>supply chain platform</title>
+    <title>Real-time Tracking | SupplyTrack</title>
 
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
@@ -23,11 +23,193 @@
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
+     <!-- Leaflet CSS for maps -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css">
+
 </head>
 <body>
-    
+     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-truck-fast me-2"></i>SupplyTrack
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html"><i class="fas fa-home me-1"></i> Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="tracking.html"><i class="fas fa-map-marked-alt me-1"></i> Tracking</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="analytics.html"><i class="fas fa-chart-line me-1"></i> Analytics</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="alerts.html"><i class="fas fa-bell me-1"></i> Alerts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="settings.html"><i class="fas fa-cog me-1"></i> Settings</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <i class="fas fa-search me-2"></i>Track Shipment
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="trackingId" class="form-label">Enter Shipment ID</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="trackingId" placeholder="e.g. SH-789456">
+                                <button class="btn btn-primary" type="button">Track</button>
+                            </div>
+                        </div>
+                        <hr>
+                        <h5 class="card-title">Shipment Details</h5>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Shipment ID:</span>
+                                <span class="fw-bold">SH-789456</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Status:</span>
+                                <span class="badge bg-warning">In Transit</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Origin:</span>
+                                <span>New York, NY</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Destination:</span>
+                                <span>Los Angeles, CA</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Current Location:</span>
+                                <span>Denver, CO</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Estimated Arrival:</span>
+                                <span class="fw-bold">May 15, 2023</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Carrier:</span>
+                                <span>FedEx</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header bg-info text-white">
+                        <i class="fas fa-list me-2"></i>Tracking History
+                    </div>
+                    <div class="card-body timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <p class="mb-0 fw-bold">Departed Denver, CO</p>
+                                <small class="text-muted">May 12, 2023 - 10:30 AM</small>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <p class="mb-0 fw-bold">Arrived in Denver, CO</p>
+                                <small class="text-muted">May 11, 2023 - 8:45 PM</small>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <p class="mb-0 fw-bold">Departed Chicago, IL</p>
+                                <small class="text-muted">May 10, 2023 - 3:15 PM</small>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <p class="mb-0 fw-bold">Picked Up in New York, NY</p>
+                                <small class="text-muted">May 8, 2023 - 9:00 AM</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-8">
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <i class="fas fa-map me-2"></i>Live Tracking Map
+                    </div>
+                    <div class="card-body p-0">
+                        <div id="trackingMap" style="height: 400px;"></div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <i class="fas fa-info-circle me-2"></i>Route Information
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5>Route Details</h5>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item d-flex justify-content-between">
+                                        <span>Distance:</span>
+                                        <span>1,450 miles</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between">
+                                        <span>Traveled:</span>
+                                        <span>1,100 miles (76%)</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between">
+                                        <span>Current Speed:</span>
+                                        <span>62 mph</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h5>Weather Conditions</h5>
+                                <div class="weather-info">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <i class="fas fa-cloud-sun me-3 fa-2x text-warning"></i>
+                                        <div>
+                                            <p class="mb-0 fw-bold">Partly Cloudy</p>
+                                            <small class="text-muted">Denver, CO</small>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <small>Temperature</small>
+                                            <p class="mb-0 fw-bold">68°F</p>
+                                        </div>
+                                        <div>
+                                            <small>Wind</small>
+                                            <p class="mb-0 fw-bold">12 mph</p>
+                                        </div>
+                                        <div>
+                                            <small>Precipitation</small>
+                                            <p class="mb-0 fw-bold">10%</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 <!-- Footer -->
