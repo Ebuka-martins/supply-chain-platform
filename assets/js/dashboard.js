@@ -6,18 +6,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // Load dashboard data
     loadDashboardData();
     
-    // Set up event listeners
-    document.querySelectorAll('.shipment-row').forEach(row => {
-        row.addEventListener('click', function() {
-            const shipmentId = this.getAttribute('data-shipment-id');
-            window.location.href = `tracking.html?shipment=${shipmentId}`;
-        });
-    });
-    
     // Refresh button
-    document.getElementById('refreshDashboard').addEventListener('click', function() {
-        loadDashboardData();
-    });
+    const refreshButton = document.getElementById('refreshDashboard');
+    if (refreshButton) {
+        refreshButton.addEventListener('click', function() {
+            loadDashboardData();
+        });
+    }
 });
 
 // Load dashboard data from API
@@ -93,80 +88,105 @@ async function loadDashboardData() {
 // Update the dashboard UI with data
 function updateDashboardUI(data) {
     // Update stats
-    document.getElementById('activeShipmentsCount').textContent = data.activeShipments;
-    document.getElementById('delayedShipmentsCount').textContent = data.delayedShipments;
-    document.getElementById('onTimeRate').textContent = `${data.onTimeRate}%`;
-    document.getElementById('monthlyShipments').textContent = data.monthlyShipments;
+    const stats = [
+        { id: 'activeShipmentsCount', value: data.activeShipments },
+        { id: 'delayedShipmentsCount', value: data.delayedShipments },
+        { id: 'onTimeRate', value: `${data.onTimeRate}%` },
+        { id: 'monthlyShipments', value: data.monthlyShipments }
+    ];
+    
+    stats.forEach(stat => {
+        const element = document.getElementById(stat.id);
+        if (element) {
+            element.textContent = stat.value;
+        } else {
+            console.warn(`Element with ID ${stat.id} not found`);
+        }
+    });
     
     // Update shipments table
     const shipmentsTable = document.getElementById('shipmentsTableBody');
-    shipmentsTable.innerHTML = '';
-    
-    data.recentShipments.forEach(shipment => {
-        const row = document.createElement('tr');
-        row.className = 'shipment-row';
-        row.setAttribute('data-shipment-id', shipment.id);
+    if (shipmentsTable) {
+        shipmentsTable.innerHTML = '';
         
-        let statusBadge;
-        switch(shipment.status) {
-            case 'in_transit':
-                statusBadge = '<span class="badge bg-warning">In Transit</span>';
-                break;
-            case 'delivered':
-                statusBadge = '<span class="badge bg-success">Delivered</span>';
-                break;
-            case 'processing':
-                statusBadge = '<span class="badge bg-info">Processing</span>';
-                break;
-            default:
-                statusBadge = '<span class="badge bg-secondary">Unknown</span>';
-        }
-        
-        row.innerHTML = `
-            <td><a href="tracking.html?shipment=${shipment.id}">${shipment.id}</a></td>
-            <td>${shipment.origin}</td>
-            <td>${shipment.destination}</td>
-            <td>${statusBadge}</td>
-            <td>${formatDate(shipment.eta)}</td>
-        `;
-        
-        shipmentsTable.appendChild(row);
-    });
+        data.recentShipments.forEach(shipment => {
+            const row = document.createElement('tr');
+            row.className = 'shipment-row';
+            row.setAttribute('data-shipment-id', shipment.id);
+            
+            let statusBadge;
+            switch(shipment.status) {
+                case 'in_transit':
+                    statusBadge = '<span class="badge bg-warning">In Transit</span>';
+                    break;
+                case 'delivered':
+                    statusBadge = '<span class="badge bg-success">Delivered</span>';
+                    break;
+                case 'processing':
+                    statusBadge = '<span class="badge bg-info">Processing</span>';
+                    break;
+                default:
+                    statusBadge = '<span class="badge bg-secondary">Unknown</span>';
+            }
+            
+            row.innerHTML = `
+                <td><a href="tracking.html?shipment=${shipment.id}">${shipment.id}</a></td>
+                <td>${shipment.origin}</td>
+                <td>${shipment.destination}</td>
+                <td>${statusBadge}</td>
+                <td>${formatDate(shipment.eta)}</td>
+            `;
+            
+            // Add click event listener for navigation
+            row.addEventListener('click', function() {
+                const shipmentId = this.getAttribute('data-shipment-id');
+                window.location.href = `tracking.html?shipment=${shipmentId}`;
+            });
+            
+            shipmentsTable.appendChild(row);
+        });
+    } else {
+        console.warn('Shipments table body not found');
+    }
     
     // Update alerts
     const alertsContainer = document.getElementById('alertsContainer');
-    alertsContainer.innerHTML = '';
-    
-    data.recentAlerts.forEach(alert => {
-        let alertClass, icon;
-        switch(alert.type) {
-            case 'delay':
-                alertClass = 'alert-warning';
-                icon = 'fa-exclamation-triangle';
-                break;
-            case 'route_change':
-                alertClass = 'alert-info';
-                icon = 'fa-route';
-                break;
-            case 'delivery':
-                alertClass = 'alert-success';
-                icon = 'fa-check-circle';
-                break;
-            default:
-                alertClass = 'alert-secondary';
-                icon = 'fa-info-circle';
-        }
+    if (alertsContainer) {
+        alertsContainer.innerHTML = '';
         
-        const alertDiv = document.createElement('div');
-        alertDiv.className = `alert ${alertClass}`;
-        alertDiv.innerHTML = `
-            <strong><i class="fas ${icon} me-2"></i>${alert.type.replace('_', ' ').toUpperCase()}:</strong> 
-            ${alert.message}
-            <small class="text-muted d-block mt-1">${formatDate(alert.timestamp)}</small>
-        `;
-        
-        alertsContainer.appendChild(alertDiv);
-    });
+        data.recentAlerts.forEach(alert => {
+            let alertClass, icon;
+            switch(alert.type) {
+                case 'delay':
+                    alertClass = 'alert-warning';
+                    icon = 'fa-exclamation-triangle';
+                    break;
+                case 'route_change':
+                    alertClass = 'alert-info';
+                    icon = 'fa-route';
+                    break;
+                case 'delivery':
+                    alertClass = 'alert-success';
+                    icon = 'fa-check-circle';
+                    break;
+                default:
+                    alertClass = 'alert-secondary';
+                    icon = 'fa-info-circle';
+            }
+            
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert ${alertClass}`;
+            alertDiv.innerHTML = `
+                <strong><i class="fas ${icon} me-2"></i>${alert.type.replace('_', ' ').toUpperCase()}:</strong> 
+                ${alert.message}
+                <small class="text-muted d-block mt-1">${formatDate(alert.timestamp)}</small>
+            `;
+            
+            alertsContainer.appendChild(alertDiv);
+        });
+    } else {
+        console.warn('Alerts container not found');
+    }
 }
 
 // Show error message
@@ -179,5 +199,9 @@ function showError(message) {
     `;
     
     const container = document.getElementById('alertsContainer') || document.querySelector('.container');
-    container.prepend(errorAlert);
+    if (container) {
+        container.prepend(errorAlert);
+    } else {
+        console.error('No container found for error message');
+    }
 }

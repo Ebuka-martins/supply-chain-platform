@@ -62,7 +62,10 @@ async function loadUserSettings() {
         updateSettingsUI(data);
     } catch (error) {
         console.error('Error loading settings:', error);
-        showToast('Failed to load settings. Please try again.', 'error');
+        const alertDiv = document.createElement('div');
+        alertDiv.className = 'alert alert-danger';
+        alertDiv.textContent = 'Failed to load settings. Please try again.';
+        document.querySelector('.container').prepend(alertDiv);
     } finally {
         hideLoading();
     }
@@ -73,42 +76,89 @@ function updateSettingsUI(settings) {
     if (!settings) return;
     
     // User info
-    if (settings.user) {
-        document.getElementById('userName').value = settings.user.name || '';
-        document.getElementById('userEmail').value = settings.user.email || '';
-        document.getElementById('userPhone').value = settings.user.phone || '';
-        document.getElementById('userCompany').value = settings.user.company || '';
+    const userName = document.getElementById('userName');
+    if (userName && settings.user) {
+        userName.value = settings.user.name || '';
+    }
+    const userEmail = document.getElementById('userEmail');
+    if (userEmail && settings.user) {
+        userEmail.value = settings.user.email || '';
+    }
+    const userPhone = document.getElementById('userPhone');
+    if (userPhone && settings.user) {
+        userPhone.value = settings.user.phone || '';
+    }
+    const userCompany = document.getElementById('userCompany');
+    if (userCompany && settings.user) {
+        userCompany.value = settings.user.company || '';
     }
     
     // Preferences
-    if (settings.preferences) {
-        document.getElementById('themeSelect').value = settings.preferences.theme || 'light';
-        document.getElementById('timezoneSelect').value = settings.preferences.timezone || 'America/New_York';
-        document.getElementById('languageSelect').value = settings.preferences.language || 'en-US';
+    const themeSelect = document.getElementById('themeSelect');
+    if (themeSelect && settings.preferences) {
+        themeSelect.value = settings.preferences.theme || 'light';
+    }
+    const timezoneSelect = document.getElementById('timezoneSelect');
+    if (timezoneSelect && settings.preferences) {
+        timezoneSelect.value = settings.preferences.timezone || 'America/New_York';
+    }
+    const languageSelect = document.getElementById('languageSelect');
+    if (languageSelect && settings.preferences) {
+        languageSelect.value = settings.preferences.language || 'en-US';
     }
     
     // Notifications
-    if (settings.notifications) {
-        document.getElementById('emailNotifications').checked = !!settings.notifications.email;
-        document.getElementById('smsNotifications').checked = !!settings.notifications.sms;
-        document.getElementById('pushNotifications').checked = !!settings.notifications.push;
-        document.getElementById('delayAlerts').checked = !!settings.notifications.delayAlerts;
-        document.getElementById('routeChanges').checked = !!settings.notifications.routeChanges;
-        document.getElementById('deliveryUpdates').checked = !!settings.notifications.deliveryUpdates;
-        document.getElementById('weeklyReports').checked = !!settings.notifications.weeklyReports;
+    const emailNotifications = document.getElementById('emailNotifications');
+    if (emailNotifications && settings.notifications) {
+        emailNotifications.checked = !!settings.notifications.email;
+    }
+    const smsNotifications = document.getElementById('smsNotifications');
+    if (smsNotifications && settings.notifications) {
+        smsNotifications.checked = !!settings.notifications.sms;
+    }
+    const pushNotifications = document.getElementById('pushNotifications');
+    if (pushNotifications && settings.notifications) {
+        pushNotifications.checked = !!settings.notifications.push;
+    }
+    const delayAlerts = document.getElementById('delayAlerts');
+    if (delayAlerts && settings.notifications) {
+        delayAlerts.checked = !!settings.notifications.delayAlerts;
+    }
+    const routeChanges = document.getElementById('routeChanges');
+    if (routeChanges && settings.notifications) {
+        routeChanges.checked = !!settings.notifications.routeChanges;
+    }
+    const deliveryUpdates = document.getElementById('deliveryUpdates');
+    if (deliveryUpdates && settings.notifications) {
+        deliveryUpdates.checked = !!settings.notifications.deliveryUpdates;
+    }
+    const weeklyReports = document.getElementById('weeklyReports');
+    if (weeklyReports && settings.notifications) {
+        weeklyReports.checked = !!settings.notifications.weeklyReports;
     }
     
     // Integrations
-    if (settings.integrations) {
-        document.getElementById('erpSystem').value = settings.integrations.erp || 'SAP';
-        document.getElementById('wmsSystem').value = settings.integrations.wms || 'Manhattan';
-        document.getElementById('tmsSystem').value = settings.integrations.tms || 'MercuryGate';
-        document.getElementById('apiKey').value = settings.integrations.apiKey || '';
+    const erpSystem = document.getElementById('erpSystem');
+    if (erpSystem && settings.integrations) {
+        erpSystem.value = settings.integrations.erp || 'SAP';
+    }
+    const wmsSystem = document.getElementById('wmsSystem');
+    if (wmsSystem && settings.integrations) {
+        wmsSystem.value = settings.integrations.wms || 'Manhattan';
+    }
+    const tmsSystem = document.getElementById('tmsSystem');
+    if (tmsSystem && settings.integrations) {
+        tmsSystem.value = settings.integrations.tms || 'MercuryGate';
+    }
+    const apiKey = document.getElementById('apiKey');
+    if (apiKey && settings.integrations) {
+        apiKey.value = settings.integrations.apiKey || '';
     }
     
     // Security
-    if (settings.security) {
-        document.getElementById('enable2FA').checked = !!settings.security.enable2FA;
+    const enable2FA = document.getElementById('enable2FA');
+    if (enable2FA && settings.security) {
+        enable2FA.checked = !!settings.security.enable2FA;
     }
 }
 
@@ -292,11 +342,15 @@ function showToast(message, type = 'info') {
 
 // Helper functions from common.js
 function showLoading() {
-    // Implement or import from common.js
-    console.log('Loading...');
+    const spinner = document.getElementById('loadingSpinner');
+    if (spinner) {
+        spinner.classList.remove('d-none');
+    }
 }
 
 function hideLoading() {
-    // Implement or import from common.js
-    console.log('Loading complete');
+    const spinner = document.getElementById('loadingSpinner');
+    if (spinner) {
+        spinner.classList.add('d-none');
+    }
 }

@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-     <!-- Meta Tags for Search Engine -->
-    <meta name="description" content="supply chain, platform, online, tracking, management, real-time, data, analysis">
+    <!-- Meta Tags for Search Engine -->
     <meta name="description" content="supply chain, platform, online, tracking, management, real-time, data, analysis">
 
     <!-- Title -->
@@ -17,15 +16,20 @@
     <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
 
     <!-- Creating a style link between HTML and CSS -->
-    <link rel="stylesheet" href="assets\css\style.css">
+    <link rel="stylesheet" href="assets/css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
     
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 </head>
-
-
 <body>
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="d-none position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-flex justify-content-center align-items-center" style="z-index: 9999;">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
@@ -78,28 +82,8 @@
                                         <th>ETA</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><a href="tracking.html">SH-789456</a></td>
-                                        <td>New York</td>
-                                        <td>Los Angeles</td>
-                                        <td><span class="badge bg-warning">In Transit</span></td>
-                                        <td>May 15, 2025</td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="tracking.html">SH-123456</a></td>
-                                        <td>Chicago</td>
-                                        <td>Miami</td>
-                                        <td><span class="badge bg-success">Delivered</span></td>
-                                        <td>May 10, 2025</td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="tracking.html">SH-654321</a></td>
-                                        <td>Houston</td>
-                                        <td>Seattle</td>
-                                        <td><span class="badge bg-info">Processing</span></td>
-                                        <td>May 18, 2025</td>
-                                    </tr>
+                                <tbody id="shipmentsTableBody">
+                                    <!-- Shipments will be loaded here dynamically -->
                                 </tbody>
                             </table>
                         </div>
@@ -112,17 +96,8 @@
                     <div class="card-header bg-success text-white">
                         <i class="fas fa-bell me-2"></i>Recent Alerts
                     </div>
-                    <div class="card-body alert-scroll">
-                        <div class="alert alert-warning">
-                            <strong>Delay Alert:</strong> Shipment SH-789456 delayed due to weather conditions.
-                        </div>
-                        <div class="alert alert-info">
-                            <strong>Route Change:</strong> Shipment SH-654321 rerouted due to traffic.
-                        </div>
-                        <div class="alert alert-success">
-                            <strong>Delivery Complete:</strong> Shipment SH-123456 delivered successfully.
-                        </div>
-                        <a href="alerts.html" class="btn btn-outline-success btn-sm mt-2">View All Alerts</a>
+                    <div class="card-body alert-scroll" id="alertsContainer">
+                        <!-- Alerts will be loaded here dynamically -->
                     </div>
                 </div>
                 
@@ -135,7 +110,7 @@
                             <div class="col-6 mb-3">
                                 <div class="card bg-light">
                                     <div class="card-body">
-                                        <h5 class="card-title">12</h5>
+                                        <h5 class="card-title" id="activeShipmentsCount">0</h5>
                                         <p class="card-text">Active Shipments</p>
                                     </div>
                                 </div>
@@ -143,7 +118,7 @@
                             <div class="col-6 mb-3">
                                 <div class="card bg-light">
                                     <div class="card-body">
-                                        <h5 class="card-title">3</h5>
+                                        <h5 class="card-title" id="delayedShipmentsCount">0</h5>
                                         <p class="card-text">Delays</p>
                                     </div>
                                 </div>
@@ -151,7 +126,7 @@
                             <div class="col-6">
                                 <div class="card bg-light">
                                     <div class="card-body">
-                                        <h5 class="card-title">98%</h5>
+                                        <h5 class="card-title" id="onTimeRate">0%</h5>
                                         <p class="card-text">On Time Rate</p>
                                     </div>
                                 </div>
@@ -159,7 +134,7 @@
                             <div class="col-6">
                                 <div class="card bg-light">
                                     <div class="card-body">
-                                        <h5 class="card-title">45</h5>
+                                        <h5 class="card-title" id="monthlyShipments">0</h5>
                                         <p class="card-text">This Month</p>
                                     </div>
                                 </div>
@@ -169,72 +144,69 @@
                 </div>
             </div>
         </div>
+        <button id="refreshDashboard" class="btn btn-primary mt-3">
+            <i class="fas fa-sync-alt me-2"></i>Refresh Dashboard
+        </button>
     </div>
 
-<!-- Footer -->
-<footer class="bg-dark text-white mt-5 py-4">
-    <div class="container text-center text-md-start">
-        <div class="row">
-            <!-- Social Media Section -->
-            <div class="col-md-4 mb-3 mb-md-0">
-                <h5 class="text-uppercase">Follow Us</h5>
-                <ul id="social-media" class="list-inline">
-                    <li class="list-inline-item mx-2">
-                        <a href="https://x.com/?lang=en" rel="noopener" aria-label="Twitter" target="_blank" class="text-white fs-4">
-                            <i class="fa-brands fa-x-twitter"></i>
-                        </a>
-                    </li>
-                    <li class="list-inline-item mx-2">
-                        <a href="https://www.facebook.com/" rel="noopener" aria-label="Facebook" target="_blank" class="text-white fs-4">
-                            <i class="fa-brands fa-facebook"></i>
-                        </a>
-                    </li>
-                    <li class="list-inline-item mx-2">
-                        <a href="https://www.youtube.com/" rel="noopener" aria-label="YouTube" target="_blank" class="text-white fs-4">
-                            <i class="fa-brands fa-youtube"></i>
-                        </a>
-                    </li>
-                    <li class="list-inline-item mx-2">
-                        <a href="https://www.instagram.com/" rel="noopener" aria-label="Instagram" target="_blank" class="text-white fs-4">
-                            <i class="fa-brands fa-square-instagram"></i>
-                        </a>
-                    </li>
-                </ul>
+    <!-- Footer -->
+    <footer class="bg-dark text-white mt-5 py-4">
+        <div class="container text-center text-md-start">
+            <div class="row">
+                <!-- Social Media Section -->
+                <div class="col-md-4 mb-3 mb-md-0">
+                    <h5 class="text-uppercase">Follow Us</h5>
+                    <ul id="social-media" class="list-inline">
+                        <li class="list-inline-item mx-2">
+                            <a href="https://x.com/?lang=en" rel="noopener" aria-label="Twitter" target="_blank" class="text-white fs-4">
+                                <i class="fa-brands fa-x-twitter"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item mx-2">
+                            <a href="https://www.facebook.com/" rel="noopener" aria-label="Facebook" target="_blank" class="text-white fs-4">
+                                <i class="fa-brands fa-facebook"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item mx-2">
+                            <a href="https://www.youtube.com/" rel="noopener" aria-label="YouTube" target="_blank" class="text-white fs-4">
+                                <i class="fa-brands fa-youtube"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item mx-2">
+                            <a href="https://www.instagram.com/" rel="noopener" aria-label="Instagram" target="_blank" class="text-white fs-4">
+                                <i class="fa-brands fa-square-instagram"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Quick Links Section -->
+                <div class="col-md-4 mb-3 mb-md-0">
+                    <h5 class="text-uppercase">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white text-decoration-none">About Us</a></li>
+                        <li><a href="#" class="text-white text-decoration-none">Contact</a></li>
+                        <li><a href="#" class="text-white text-decoration-none">Privacy Policy</a></li>
+                        <li><a href="#" class="text-white text-decoration-none">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="col-md-4">
+                    <h5 class="text-uppercase">Contact Info</h5>
+                    <p class="mb-1"><i class="fa fa-envelope me-2"></i> martin4best@gmail.com</p>
+                    <p class="mb-1"><i class="fa fa-phone me-2"></i> +353899728953</p>
+                    <p><i class="fa fa-map-marker-alt me-2"></i> 34 Ripley Hills Killarney Bray Wicklow Ireland</p>
+                </div>
             </div>
 
-            <!-- Quick Links Section -->
-            <div class="col-md-4 mb-3 mb-md-0">
-                <h5 class="text-uppercase">Quick Links</h5>
-                <ul class="list-unstyled">
-                    <li><a href="#" class="text-white text-decoration-none">About Us</a></li>
-                    <li><a href="#" class="text-white text-decoration-none">Contact</a></li>
-                    <li><a href="#" class="text-white text-decoration-none">Privacy Policy</a></li>
-                    <li><a href="#" class="text-white text-decoration-none">Terms & Conditions</a></li>
-                </ul>
-            </div>
-
-            <!-- Contact Info -->
-            <div class="col-md-4">
-                <h5 class="text-uppercase">Contact Info</h5>
-                <p class="mb-1"><i class="fa fa-envelope me-2"></i> martin4best@gmail.com</p>
-                <p class="mb-1"><i class="fa fa-phone me-2"></i> +353899728953</p>
-                <p><i class="fa fa-map-marker-alt me-2"></i> 34 Ripley Hills Killarney Bray Wicklow Ireland</p>
-            </div>
+            <hr class="border-light my-4">
         </div>
+    </footer>
 
-        <hr class="border-light my-4">
-
-    </div>
-</footer>
-
-
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
-<script src="assets\js\alerts.js"></script>
-<script src="assets\js\analytics.js"></script>
-<script src="assets\js\common.js"></script>
-<script src="assets\js\dashboard.js"></script>
-<script src="assets\js\settings.js"></script>
-<script src="assets\js\tracking.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/common.js"></script>
+    <script src="assets/js/dashboard.js"></script>
 </body>
 </html>
