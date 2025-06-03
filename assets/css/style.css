@@ -41,3 +41,58 @@ footer .list-unstyled a:hover {
     text-decoration: underline !important;
 }
 
+/* Loading overlay */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+/* Map marker styles */
+.current-location-marker {
+    background-color: transparent;
+    border: none;
+}
+
+/* Timeline styles */
+.timeline {
+    position: relative;
+    padding-left: 20px;
+}
+
+.timeline-item {
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.timeline-marker {
+    position: absolute;
+    left: -20px;
+    top: 0;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #0d6efd;
+    border: 2px solid white;
+}
+
+.timeline-content {
+    padding-left: 10px;
+}
+
+.timeline-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: -15px;
+    top: 12px;
+    bottom: 0;
+    width: 2px;
+    background-color: #e9ecef;
+}
