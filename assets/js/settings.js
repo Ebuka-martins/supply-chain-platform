@@ -28,10 +28,10 @@ async function loadUserSettings() {
         // Mock data - in a real app, you would fetch from an API
         const data = {
             user: {
-                name: 'John Doe',
-                email: 'john.doe@example.com',
-                phone: '+1 (555) 123-4567',
-                company: 'ACME Corp'
+                name: 'Martins Ebuka',
+                email: 'martin4best@gmail.com',
+                phone: '+353 899 728 953',
+                company: 'Phantom Supply Chain'
             },
             preferences: {
                 theme: 'light',
